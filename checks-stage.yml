@@ -1,0 +1,18 @@
+parameters:
+  - name: targetPath
+    type: string
+
+stages:
+  - stage: Checks
+    dependsOn: "Build"
+    displayName: "Checks"
+    jobs:
+      - job: Trivy
+        workspace:
+          clean: all
+        steps:
+          - checkout: self
+
+          - template: trivy/trivy-pipelines.yml@UKHOTemplates
+            parameters:
+              WorkingDirectory: "$(Build.SourcesDirectory)/pipeline/terraform/${{ parameters.targetPath }}"

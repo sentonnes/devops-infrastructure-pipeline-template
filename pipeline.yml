@@ -1,0 +1,60 @@
+parameters: 
+  - name: targetPath
+    type: string
+    values: 
+    - apim-components
+    - service
+  - name: tfStateBlobName
+    type: string
+    values: 
+    - apim.components.service
+    - service 
+
+resources:
+  repositories:
+    - repository: UKHOTemplates
+      type: github
+      endpoint: UKHO
+      name: UKHO/devops-pipelinetemplates
+      ref: refs/heads/main
+    - repository: GatedInfrastructureDeploy
+      type: github
+      endpoint: UKHO
+      name: UKHO/devops-gated-infrastructure-deploy
+      ref: refs/tags/1.0.0
+  containers:
+    - container: TerraformContainer
+      image: ukhydrographicoffice/terraform-powershell:1.8.5
+
+stages:
+  - template: build-stage.yml
+    parameters:
+      targetPath: ${{ parameters.targetPath }}
+
+  - template: checks-stage.yml
+    parameters:
+      targetPath: ${{ parameters.targetPath }}
+      
+  - template: deploy-stage.yml
+    parameters:
+      tfStateBlobName: ${{ parameters.tfStateBlobName }}
+      environment: dev
+      dependsOn:
+        - "Build"
+
+  - template: deploy-stage.yml
+    parameters:
+      tfstateblobname: ${{ parameters.tfStateBlobName }}
+      environment: qa
+      dependsOn:
+        - "Checks"
+        - "Deploy_dev"
+      condition: succeeded('Checks', 'Deploy_dev')
+
+  - template: deploy-stage.yml
+    parameters:
+      tfstateblobname: ${{ parameters.tfStateBlobName }}
+      environment: live
+      dependsOn:
+        - "Deploy_qa"
+      condition: succeeded()

@@ -1,0 +1,19 @@
+parameters:
+  - name: targetPath
+    type: string
+
+stages:
+  - stage: Build
+    displayName: "Build"
+    jobs:
+      - job: PublishTerraformArtifact
+        workspace:
+          clean: all
+        displayName: "Publish Terraform Artifact"
+        steps:
+          - task: PublishPipelineArtifact@1
+            displayName: "Publish Terraform Artifact"
+            inputs:
+              targetPath: '$(Build.SourcesDirectory)/pipeline/terraform/${{ parameters.targetPath }}'
+              artifact: TerraformArtifact
+              publishLocation: "pipeline"
