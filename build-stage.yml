@@ -1,11 +1,11 @@
 parameters:
-  - name: RelativePathToTerraformFiles
+  - name: relativePathToTerraformFiles
     type: string
 
 stages:
   - stage: Build
     variables:
-      terraformTargetPath: $(Build.SourcesDirectory)/$(RelativePathToTerraformFiles)
+      terraformTargetPath: $(Build.SourcesDirectory)/${{ parameters.relativePathToTerraformFiles }}
     displayName: "Build"
     jobs:
       - job: PublishTerraformArtifact
@@ -17,5 +17,5 @@ stages:
             displayName: "Publish Terraform Artifact"
             inputs:
               targetPath: $(terraformTargetPath)
-              artifact: TerraformArtifact
+              artifact: "TerraformArtifact"
               publishLocation: "pipeline"

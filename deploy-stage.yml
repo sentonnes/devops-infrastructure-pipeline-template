@@ -1,46 +1,46 @@
 parameters:
-  - name: Environment
+  - name: environment
     type: string
     default: 'dev'
   - name: Condition
     type: string
     default: 'succeeded()'
-  - name: DependsOn
+  - name: dependsOn
     type: object
     default: { }
-  - name: TFStateBlobName
+  - name: tfStateBlobName
     type: string
-  - name: TFStateResourceGroupName
+  - name: tfStateResourceGroupName
     type: string
-  - name: TFStateStorageAccountName
+  - name: tfStateStorageAccountName
     type: string
-  - name: TFStateContainerName
+  - name: tfStateContainerName
     type: string
-  - name: VariablesTemplateRelativePath
+  - name: variablesTemplateRelativePath
     type: string
-  - name: TerraformVariableMappings
+  - name: terraformVariableMappings
     type: object
 
 stages:
-  - stage: Deploy_${{ parameters.Environment }}
-    displayName: "Deploy ${{ parameters.Environment }}"
-    condition: ${{ parameters.Condition }}
+  - stage: Deploy_${{ parameters.environment }}
+    displayName: "Deploy ${{ parameters.environment }}"
+    condition: ${{ parameters.condition }}
     dependsOn:
-      - ${{ each dependsOnThis in parameters.DependsOn }}:
+      - ${{ each dependsOnThis in parameters.dependsOn }}:
           - ${{ dependsOnThis }}
     jobs:
       - template: template.yml@GatedInfrastructureDeploy
         parameters:
-          AzDOEnvironmentName: ${{ parameters.Environment }}
-          TFStateResourceGroupName: ${{ parameters.TFStateResourceGroup }}
-          TFStateStorageAccountName: ${{ parameters.TFStateStorageAccountName }}
-          TFStateContainerName: ${{ parameters.TFStateContainerName }}
-          TFStateBlobName: ${{ parameters.TFStateBlobName }}
-          TerraformWorkspace: ${{ parameters.Environment }}
+          AzDOEnvironmentName: ${{ parameters.environment }}
+          TFStateResourceGroupName: ${{ parameters.tfStateResourceGroup }}
+          TFStateStorageAccountName: ${{ parameters.tfStateStorageAccountName }}
+          TFStateContainerName: ${{ parameters.tfStateContainerName }}
+          TFStateBlobName: ${{ parameters.tfStateBlobName }}
+          TerraformWorkspace: ${{ parameters.environment }}
           TerraformArtifactConfigRelativePath: "/"
           TerraformArtifact: "TerraformArtifact" # Hardcoded until it doesn't need to be
           TerraformContainer: TerraformContainer
-          VariablesTemplateRelativePath: ${{ parameters.VariablesTemplateRelativePath }}
+          VariablesTemplateRelativePath: ${{ parameters.variablesTemplateRelativePath }}
           TerraformVariableMappings:
-            ${{each TerraformVariableMappings in parameters.TerraformVariableMappings}}:
-              ${{TerraformVariableMappings.Key}}: ${{TerraformVariableMappings.Value}}
+            ${{ each terraformVariableMappings in parameters.terraformVariableMappings }}:
+              ${{ terraformVariableMappings.Key }}: ${{ terraformVariableMappings.Value }}

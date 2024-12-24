@@ -1,17 +1,17 @@
 parameters:
-  - name: RelativePathToTerraformFiles
+  - name: relativePathToTerraformFiles
     type: string
-  - name: TFStateBlobName
+  - name: tfStateBlobName
     type: string
-  - name: TFStateResourceGroupName
+  - name: tfStateResourceGroupName
     type: string
-  - name: TFStateStorageAccountName
+  - name: tfStateStorageAccountName
     type: string
-  - name: TFStateContainerName
+  - name: tfStateContainerName
     type: string
-  - name: VariablesTemplateRelativePath
+  - name: variablesTemplateRelativePath
     type: string
-  - name: TerraformVariableMappings
+  - name: terraformVariableMappings
     type: object
 
 resources:
@@ -33,46 +33,46 @@ resources:
 stages:
   - template: build-stage.yml
     parameters:
-      RelativePathToTerraformFiles: ${{ parameters.RelativePathToTerraformFiles }}
+      relativePathToTerraformFiles: ${{ parameters.relativePathToTerraformFiles }}
 
   - template: checks-stage.yml
     parameters:
-      RelativePathToTerraformFiles: ${{ parameters.RelativePathToTerraformFiles }}
+      relativePathToTerraformFiles: ${{ parameters.relativePathToTerraformFiles }}
 
   - template: deploy-stage.yml
     parameters:
-      Environment: dev
-      DependsOn:
+      environment: dev
+      dependsOn:
         - "Build"
-      TFStateBlobName: ${{ parameters.TFStateBlobName }}
-      TFStateResourceGroupName: ${{ parameters.TFStateResourceGroupName }}
-      TFStateStorageAccountName: ${{ parameters.TFStateStorageAccountName }}
-      TFStateContainerName: ${{ parameters.TFStateContainerName }}
-      VariablesTemplateRelativePath: ${{ parameters.VariablesTemplateRelativePath }}
-      TerraformVariableMappings: ${{ parameters.TerraformVariableMappings }}
+      tfStateBlobName: ${{ parameters.tfStateBlobName }}
+      tfStateResourceGroupName: ${{ parameters.tfStateResourceGroupName }}
+      tfStateStorageAccountName: ${{ parameters.tfStateStorageAccountName }}
+      tfStateContainerName: ${{ parameters.tfStateContainerName }}
+      variablesTemplateRelativePath: ${{ parameters.variablesTemplateRelativePath }}
+      terraformVariableMappings: ${{ parameters.terraformVariableMappings }}
 
   - template: deploy-stage.yml
     parameters:
-      Environment: qa
-      DependsOn:
+      environment: qa
+      dependsOn:
         - "Checks"
         - "Deploy_dev"
-      Condition: succeeded('Checks', 'Deploy_dev')
-      TFStateBlobName: ${{ parameters.TFStateBlobName }}
-      TFStateResourceGroupName: ${{ parameters.TFStateResourceGroupName }}
-      TFStateStorageAccountName: ${{ parameters.TFStateStorageAccountName }}
-      TFStateContainerName: ${{ parameters.TFStateContainerName }}
-      VariablesTemplateRelativePath: ${{ parameters.VariablesTemplateRelativePath }}
-      TerraformVariableMappings: ${{ parameters.TerraformVariableMappings }}
+      condition: succeeded('Checks', 'Deploy_dev')
+      tfStateBlobName: ${{ parameters.tfStateBlobName }}
+      tfStateResourceGroupName: ${{ parameters.tfStateResourceGroupName }}
+      tfStateStorageAccountName: ${{ parameters.tfStateStorageAccountName }}
+      tfStateContainerName: ${{ parameters.tfStateContainerName }}
+      variablesTemplateRelativePath: ${{ parameters.variablesTemplateRelativePath }}
+      terraformVariableMappings: ${{ parameters.terraformVariableMappings }}
 
   - template: deploy-stage.yml
     parameters:
-      Environment: live
-      DependsOn:
+      environment: live
+      dependsOn:
         - "Deploy_qa"
-      TFStateBlobName: ${{ parameters.TFStateBlobName }}
-      TFStateResourceGroupName: ${{ parameters.TFStateResourceGroupName }}
-      TFStateStorageAccountName: ${{ parameters.TFStateStorageAccountName }}
-      TFStateContainerName: ${{ parameters.TFStateContainerName }}
-      VariablesTemplateRelativePath: ${{ parameters.VariablesTemplateRelativePath }}
-      TerraformVariableMappings: ${{ parameters.TerraformVariableMappings }}
+      tfStateBlobName: ${{ parameters.tfStateBlobName }}
+      tfStateResourceGroupName: ${{ parameters.tfStateResourceGroupName }}
+      tfStateStorageAccountName: ${{ parameters.tfStateStorageAccountName }}
+      tfStateContainerName: ${{ parameters.tfStateContainerName }}
+      variablesTemplateRelativePath: ${{ parameters.variablesTemplateRelativePath }}
+      terraformVariableMappings: ${{ parameters.terraformVariableMappings }}

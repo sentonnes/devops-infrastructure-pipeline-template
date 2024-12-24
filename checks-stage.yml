@@ -1,12 +1,12 @@
 parameters:
-  - name: RelativePathToTerraformFiles
+  - name: relativePathToTerraformFiles
     type: string
 
 stages:
   - stage: Checks
-    dependsOn: "Build"    
+    dependsOn: "Build"
     variables:
-      terraformTargetPath: $(Build.SourcesDirectory)/$(RelativePathToTerraformFiles)
+      terraformTargetPath: $(Build.SourcesDirectory)/${{ parameters.relativePathToTerraformFiles }}
     displayName: "Checks"
     jobs:
       - job: Trivy
