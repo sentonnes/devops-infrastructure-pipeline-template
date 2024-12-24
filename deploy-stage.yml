@@ -1,39 +1,46 @@
 parameters:
-  - name: environment
+  - name: Environment
     type: string
     default: 'dev'
-  - name: condition
+  - name: Condition
     type: string
     default: 'succeeded()'
-  - name: dependsOn
+  - name: DependsOn
     type: object
     default: { }
-  - name: tfStateBlobName
+  - name: TFStateBlobName
     type: string
+  - name: TFStateResourceGroupName
+    type: string
+  - name: TFStateStorageAccountName
+    type: string
+  - name: TFStateContainerName
+    type: string
+  - name: VariablesTemplateRelativePath
+    type: string
+  - name: TerraformVariableMappings
+    type: object
 
 stages:
-  - stage: Deploy_${{ parameters.environment }}
-    displayName: "Deploy ${{ parameters.environment }}"
-    condition: ${{parameters.condition}}
+  - stage: Deploy_${{ parameters.Environment }}
+    displayName: "Deploy ${{ parameters.Environment }}"
+    condition: ${{ parameters.Condition }}
     dependsOn:
-      - ${{ each dependsOnThis in parameters.dependsOn }}:
+      - ${{ each dependsOnThis in parameters.DependsOn }}:
           - ${{ dependsOnThis }}
     jobs:
       - template: template.yml@GatedInfrastructureDeploy
         parameters:
-          AzDOEnvironmentName: ""
-          TFStateResourceGroupName: ""
-          TFStateStorageAccountName: ""
-          TFStateContainerName: ""
-          TFStateBlobName: ${{ parameters.tfStateBlobName }}
-          TerraformWorkspace: ${{ parameters.environment }}
+          AzDOEnvironmentName: ${{ parameters.Environment }}
+          TFStateResourceGroupName: ${{ parameters.TFStateResourceGroup }}
+          TFStateStorageAccountName: ${{ parameters.TFStateStorageAccountName }}
+          TFStateContainerName: ${{ parameters.TFStateContainerName }}
+          TFStateBlobName: ${{ parameters.TFStateBlobName }}
+          TerraformWorkspace: ${{ parameters.Environment }}
           TerraformArtifactConfigRelativePath: "/"
-          TerraformArtifact: "TerraformArtifact"
+          TerraformArtifact: "TerraformArtifact" # Hardcoded until it doesn't need to be
           TerraformContainer: TerraformContainer
-          VariablesTemplateRelativePath: /pipeline/infrastructure-pipeline-templates/vars-${{ parameters.environment }}-deploy.yml
+          VariablesTemplateRelativePath: ${{ parameters.VariablesTemplateRelativePath }}
           TerraformVariableMappings:
-            ARM_CLIENT_ID: $(TERRAFORM-CLIENT-ID)
-            ARM_CLIENT_SECRET: $(TERRAFORM-CLIENT-SECRET)
-            ARM_TENANT_ID: $(TERRAFORM-TENANT-ID)
-            ARM_SUBSCRIPTION_ID: $(TERRAFORM-SUBSCRIPTION-ID)
-            TF_VAR_environment: ${{ parameters.environment }}
+            ${{each TerraformVariableMappings in parameters.TerraformVariableMappings}}:
+              ${{TerraformVariableMappings.Key}}: ${{TerraformVariableMappings.Value}}
