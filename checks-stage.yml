@@ -1,6 +1,6 @@
 parameters:
-  name: RelativePathToTerraformFiles
-  type: string
+  - name: RelativePathToTerraformFiles
+    type: string
 
 stages:
   - stage: Checks
