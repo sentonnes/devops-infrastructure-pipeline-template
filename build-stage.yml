@@ -1,11 +1,11 @@
 parameters:
-  name: TerraformPathSection
+  name: RelativePathToTerraformFiles
   type: string
 
 stages:
   - stage: Build
     variables:
-      terraformTargetPath: $(Build.SourcesDirectory)/$(TerraformPathSection)
+      terraformTargetPath: $(Build.SourcesDirectory)/$(RelativePathToTerraformFiles)
     displayName: "Build"
     jobs:
       - job: PublishTerraformArtifact

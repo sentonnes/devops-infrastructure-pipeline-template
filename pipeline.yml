@@ -1,5 +1,5 @@
 parameters:
-  name: TerraformPathSection
+  name: RelativePathToTerraformFiles
   type: string
   
 resources:
@@ -21,7 +21,7 @@ resources:
 stages:
   - template: build-stage.yml
     parameters:
-      TerraformPathSection: ${{ parameters.TerraformPathSection }}
+      RelativePathToTerraformFiles: ${{ parameters.RelativePathToTerraformFiles }}
 
   - template: checks-stage.yml
       
