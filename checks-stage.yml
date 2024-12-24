@@ -14,16 +14,6 @@ stages:
           clean: all
         steps:
           - checkout: self
-            
-          - task: PowerShell@2
-            name: diagnostics
-            displayName: "Diagnostic Information"
-            inputs:
-              targetType: inline
-              script: |
-                Write-Host "terraformTargetPath: $(terraformTargetPath)"
-                Write-Host "Content of terraformTargetPath directory"
-                Get-ChildItem $(terraformTargetPath)
 
           - template: trivy/trivy-pipelines.yml@UKHOTemplates
             parameters:
