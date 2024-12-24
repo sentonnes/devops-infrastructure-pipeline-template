@@ -1,7 +1,7 @@
 parameters:
   name: RelativePathToTerraformFiles
   type: string
-  
+
 resources:
   repositories:
     - repository: UKHOTemplates
@@ -24,7 +24,9 @@ stages:
       RelativePathToTerraformFiles: ${{ parameters.RelativePathToTerraformFiles }}
 
   - template: checks-stage.yml
-      
+    parameters:
+      RelativePathToTerraformFiles: ${{ parameters.RelativePathToTerraformFiles }}
+
   - template: deploy-stage.yml
     parameters:
       environment: dev

@@ -1,10 +1,12 @@
 parameters:
-  - name: targetPath
-    type: string
+  name: RelativePathToTerraformFiles
+  type: string
 
 stages:
   - stage: Checks
-    dependsOn: "Build"
+    dependsOn: "Build"    
+    variables:
+      terraformTargetPath: $(Build.SourcesDirectory)/$(RelativePathToTerraformFiles)
     displayName: "Checks"
     jobs:
       - job: Trivy
@@ -12,7 +14,17 @@ stages:
           clean: all
         steps:
           - checkout: self
+            
+          - task: PowerShell@2
+            name: diagnostics
+            displayName: "Diagnostic Information"
+            inputs:
+              targetType: inline
+              script: |
+                Write-Host "terraformTargetPath: $(terraformTargetPath)"
+                Write-Host "Content of terraformTargetPath directory"
+                Get-ChildItem $(terraformTargetPath)
 
           - template: trivy/trivy-pipelines.yml@UKHOTemplates
             parameters:
-              WorkingDirectory: "$(Build.SourcesDirectory)/pipeline/terraform/${{ parameters.targetPath }}"
+              WorkingDirectory: $(terraformTargetPath)
