@@ -1,15 +1,7 @@
-parameters: 
-  - name: targetPath
-    type: string
-    values: 
-    - apim-components
-    - service
-  - name: tfStateBlobName
-    type: string
-    values: 
-    - apim.components.service
-    - service 
-
+parameters:
+  name: TerraformPathSection
+  type: string
+  
 resources:
   repositories:
     - repository: UKHOTemplates
@@ -29,22 +21,18 @@ resources:
 stages:
   - template: build-stage.yml
     parameters:
-      targetPath: ${{ parameters.targetPath }}
+      TerraformPathSection: ${{ parameters.TerraformPathSection }}
 
   - template: checks-stage.yml
-    parameters:
-      targetPath: ${{ parameters.targetPath }}
       
   - template: deploy-stage.yml
     parameters:
-      tfStateBlobName: ${{ parameters.tfStateBlobName }}
       environment: dev
       dependsOn:
         - "Build"
 
   - template: deploy-stage.yml
     parameters:
-      tfstateblobname: ${{ parameters.tfStateBlobName }}
       environment: qa
       dependsOn:
         - "Checks"
@@ -53,7 +41,6 @@ stages:
 
   - template: deploy-stage.yml
     parameters:
-      tfstateblobname: ${{ parameters.tfStateBlobName }}
       environment: live
       dependsOn:
         - "Deploy_qa"
