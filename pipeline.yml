@@ -1,13 +1,13 @@
 parameters:
   - name: relativePathToTerraformFiles
     type: string
-  - name: tfStateBlobName
-    type: string
   - name: tfStateResourceGroupName
     type: string
   - name: tfStateStorageAccountName
     type: string
   - name: tfStateContainerName
+    type: string
+  - name: tfStateBlobName
     type: string
   - name: jobsVariableMappings
     type: object
