@@ -18,13 +18,13 @@ resources:
   repositories:
     - repository: UKHOTemplates
       type: github
-      endpoint: UKHO
-      name: UKHO/devops-pipelinetemplates
+      endpoint: sentonnes
+      name: sentonnes/devops-pipelinetemplates
       ref: refs/heads/main
     - repository: GatedInfrastructureDeploy
       type: github
-      endpoint: UKHO
-      name: UKHO/devops-gated-infrastructure-deploy
+      endpoint: sentonnes
+      name: sentonnes/devops-gated-infrastructure-deploy
       ref: refs/tags/2.0.0-alpha
   containers:
     - container: TerraformContainer
