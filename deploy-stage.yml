@@ -32,7 +32,7 @@ stages:
       - template: template.yml@GatedInfrastructureDeploy
         parameters:
           AzDOEnvironmentName: ${{ parameters.environment }}
-          TFStateResourceGroupName: ${{ parameters.tfStateResourceGroup }}
+          TFStateResourceGroupName: ${{ parameters.TFStateResourceGroupName }}
           TFStateStorageAccountName: ${{ parameters.tfStateStorageAccountName }}
           TFStateContainerName: ${{ parameters.tfStateContainerName }}
           TFStateBlobName: ${{ parameters.tfStateBlobName }}
