@@ -5,8 +5,8 @@ resources:
   repositories:
     - repository: InfrastructurePipelineTemplate
       type: github
-      endpoint: UKHO
-      name: UKHO/devops-infrastructure-pipeline-template
+      endpoint: sentonnes
+      name: sentonnes/devops-infrastructure-pipeline-template
 #      ref: refs/tags/1.0.0 # No 1.0.0 yet, default to main
 
 extends:
