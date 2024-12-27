@@ -9,8 +9,8 @@ parameters:
     type: string
   - name: tfStateContainerName
     type: string
-  - name: variablesTemplateRelativePath
-    type: string
+  - name: jobsVariableMappings
+    type: object
   - name: terraformVariableMappings
     type: object
 
@@ -25,7 +25,7 @@ resources:
       type: github
       endpoint: UKHO
       name: UKHO/devops-gated-infrastructure-deploy
-      ref: refs/tags/1.0.0
+      ref: refs/tags/2.0.0-alpha
   containers:
     - container: TerraformContainer
       image: ukhydrographicoffice/terraform-powershell:1.8.5
@@ -48,7 +48,7 @@ stages:
       tfStateResourceGroupName: ${{ parameters.tfStateResourceGroupName }}
       tfStateStorageAccountName: ${{ parameters.tfStateStorageAccountName }}
       tfStateContainerName: ${{ parameters.tfStateContainerName }}
-      variablesTemplateRelativePath: ${{ parameters.variablesTemplateRelativePath }}
+      jobsVariableMappings: ${{ parameters.jobsVariableMappings }}
       terraformVariableMappings: ${{ parameters.terraformVariableMappings }}
 
   - template: deploy-stage.yml
@@ -62,7 +62,7 @@ stages:
       tfStateResourceGroupName: ${{ parameters.tfStateResourceGroupName }}
       tfStateStorageAccountName: ${{ parameters.tfStateStorageAccountName }}
       tfStateContainerName: ${{ parameters.tfStateContainerName }}
-      variablesTemplateRelativePath: ${{ parameters.variablesTemplateRelativePath }}
+      jobsVariableMappings: ${{ parameters.jobsVariableMappings }}
       terraformVariableMappings: ${{ parameters.terraformVariableMappings }}
 
   - template: deploy-stage.yml
@@ -74,5 +74,5 @@ stages:
       tfStateResourceGroupName: ${{ parameters.tfStateResourceGroupName }}
       tfStateStorageAccountName: ${{ parameters.tfStateStorageAccountName }}
       tfStateContainerName: ${{ parameters.tfStateContainerName }}
-      variablesTemplateRelativePath: ${{ parameters.variablesTemplateRelativePath }}
+      jobsVariableMappings: ${{ parameters.jobsVariableMappings }}
       terraformVariableMappings: ${{ parameters.terraformVariableMappings }}

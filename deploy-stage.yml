@@ -16,7 +16,7 @@ parameters:
     type: string
   - name: tfStateContainerName
     type: string
-  - name: variablesTemplateRelativePath
+  - name: jobsVariableMappings
     type: string
   - name: terraformVariableMappings
     type: object
@@ -40,7 +40,5 @@ stages:
           TerraformArtifactConfigRelativePath: "/"
           TerraformArtifact: "TerraformArtifact" # Hardcoded until it doesn't need to be
           TerraformContainer: TerraformContainer
-          VariablesTemplateRelativePath: ${{ parameters.variablesTemplateRelativePath }}
-          TerraformVariableMappings:
-            ${{ each terraformVariableMappings in parameters.terraformVariableMappings }}:
-              ${{ terraformVariableMappings.Key }}: ${{ terraformVariableMappings.Value }}
+          JobsVariableMappings: ${{ parameters.jobsVariableMappings }}
+          TerraformVariableMappings: ${{ parameters.jobsVariableMappings }}
