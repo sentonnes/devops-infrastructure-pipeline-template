@@ -17,4 +17,9 @@ extends:
     tfStateStorageAccountName: tfstatesa
     tfStateContainerName: tfstate
     tfStateBlobName: tfstate.apim.components
+    jobsVariableMappings:
+      group: doesNotExistYetGroup
+      aVariable: aValue
+    terraformVariableMappings:
+      Example: example value
 
