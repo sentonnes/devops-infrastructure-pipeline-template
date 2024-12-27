@@ -1,0 +1,20 @@
+# DO NOT RUN
+# FOR COMPILE TESTING ONLY
+
+resources:
+  repositories:
+    - repository: InfrastructurePipelineTemplate
+      type: github
+      endpoint: UKHO
+      name: UKHO/devops-infrastructure-pipeline-template
+#      ref: refs/tags/1.0.0 # No 1.0.0 yet, default to main
+
+extends:
+  template: pipeline.yml@InfrastructurePipelineTemplate
+  parameters:
+    relativePathToTerraformFiles: pipeline/terraform/apim-components
+    tfStateResourceGroupName: tfstaterg
+    tfStateStorageAccountName: tfstatesa
+    tfStateContainerName: tfstate
+    tfStateBlobName: tfstate.apim.components
+
