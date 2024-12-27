@@ -17,7 +17,7 @@ parameters:
   - name: tfStateContainerName
     type: string
   - name: jobsVariableMappings
-    type: string
+    type: object
   - name: terraformVariableMappings
     type: object
 
