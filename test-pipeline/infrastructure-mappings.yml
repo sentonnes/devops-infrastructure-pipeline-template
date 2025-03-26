@@ -1,5 +1,7 @@
 variables:
   - name: JobsVariableMappings
-    value: null
+    value: 
+      cheese: toast
   - name: TerraformVariableMappings
-    value: null 
+    value: 
+      cheese: toast
