@@ -1,0 +1,5 @@
+variables:
+  - name: JobsVariableMappings
+    value: null
+  - name: TerraformVariableMappings
+    value: null 
