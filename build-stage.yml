@@ -20,6 +20,8 @@ stages:
           - checkout: InfrastructurePipelineTemplate
             persistCredentials: true
             path: $(CheckOutPath)
+
+          - checkout: self
             
           - task: PowerShell@2
             name: validate
