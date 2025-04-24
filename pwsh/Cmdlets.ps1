@@ -15,6 +15,17 @@
     terraform --version
 }
 
+function ThrowErrorIfCommandHadError {
+    param (
+        [Parameter(Mandatory)]
+        [ValidateNotNullOrEmpty()]
+        [string] $Activity
+    )
+    if (!$?) {
+        throw "Something went wrong during: $Activity"
+    }
+}
+
 function Terraform-Validate {
     $activity = "terraform validation command execution"
     Write-Output "Starting $activity"
