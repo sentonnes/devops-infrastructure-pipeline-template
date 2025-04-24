@@ -17,6 +17,10 @@ stages:
           clean: all
         displayName: "Publish Terraform Artifact"
         steps:
+          - checkout: InfrastructurePipelineTemplate
+            persistCredentials: true
+            path: $(CheckOutPath)
+            
           - task: PowerShell@2
             name: validate
             condition: ${{ parameters.RunValidate }}
