@@ -9,7 +9,7 @@ stages:
   - stage: Build
     variables:
       ServiceRepoCheckoutPathSegment: TerraformFiles
-      AbsolutePathToTerraformFiles: $(Build.SourcesDirectory)/$(ServiceRepoCheckoutPathSegment)/${{ parameters.relativePathToTerraformFiles }}
+      AbsolutePathToTerraformFiles: $(Build.BuildDirectory)/$(ServiceRepoCheckoutPathSegment)/${{ parameters.relativePathToTerraformFiles }}
     displayName: "Build"
     jobs:
       - job: PublishTerraformArtifact
