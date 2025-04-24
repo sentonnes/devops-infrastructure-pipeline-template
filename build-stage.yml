@@ -19,7 +19,7 @@ stages:
         steps:
           - task: PowerShell@2
             name: validate
-            condition: $(RunValidate)
+            condition: ${{ parameters.RunValidate }}
             displayName: "Terraform Validate"
             inputs:
               targetType: filePath
