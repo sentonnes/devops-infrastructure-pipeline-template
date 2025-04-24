@@ -1,9 +1,7 @@
 parameters:
   - name: PipelineVariableMappings
     type: object
-    default:
-      - name: UbuntuPool
-        value: "Mare Nectaris"
+    default: {}
   - name: relativePathToTerraformFiles
     type: string
   - name: tfStateResourceGroupName
