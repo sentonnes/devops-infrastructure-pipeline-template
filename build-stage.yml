@@ -8,7 +8,7 @@ parameters:
 stages:
   - stage: Build
     variables:
-      terraformTargetPath: $(Build.SourcesDirectory)/${{ parameters.relativePathToTerraformFiles }}
+      relativePathToTerraformFiles: $(Build.SourcesDirectory)/${{ parameters.relativePathToTerraformFiles }}
     displayName: "Build"
     jobs:
       - job: PublishTerraformArtifact
@@ -30,10 +30,12 @@ stages:
             inputs:
               targetType: filePath
               filePath: "$(Pipeline.Workspace)/$(CheckOutPath)/pwsh/Invoke-TerraformValidate.ps1"
-            
+              arguments: >
+                -TerraformFilesDirectory "$(relativePathToTerraformFiles)"            
+  
           - task: PublishPipelineArtifact@1
             displayName: "Publish Terraform Artifact"
             inputs:
-              targetPath: $(terraformTargetPath)
+              targetPath: $(relativePathToTerraformFiles)
               artifact: "TerraformArtifact"
               publishLocation: "pipeline"
