@@ -4,6 +4,9 @@ parameters:
     default: {}
   - name: relativePathToTerraformFiles
     type: string
+  # relativePathToTerraformFiles will be used in two places
+  # - Build, where the files are checkout to a specified folder due to double checkout in the Build stage (target repo for terraform files, this repo for pwsh)
+  # - Checks, where the files are checkout to default folder due to single checkout and not needing to checkout other repos
   - name: tfStateResourceGroupName
     type: string
   - name: tfStateStorageAccountName

@@ -8,7 +8,8 @@ parameters:
 stages:
   - stage: Build
     variables:
-      relativePathToTerraformFiles: $(Build.SourcesDirectory)/${{ parameters.relativePathToTerraformFiles }}
+      CheckOutPathTerraformFiles: $(Build.SourcesDirectory)/TerraformFiles
+      relativePathToTerraformFiles: $(CheckOutPathTerraformFiles)/${{ parameters.relativePathToTerraformFiles }}
     displayName: "Build"
     jobs:
       - job: PublishTerraformArtifact
@@ -22,6 +23,7 @@ stages:
             path: $(CheckOutPath)
 
           - checkout: self
+            path: $(CheckOutPathTerraformFiles)
               
           - task: PowerShell@2
             name: validate
