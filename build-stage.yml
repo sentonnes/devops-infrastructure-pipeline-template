@@ -22,7 +22,7 @@ stages:
             path: $(CheckOutPath)
 
           - checkout: self
-            
+              
           - task: PowerShell@2
             name: validate
             condition: ${{ parameters.RunValidate }}
