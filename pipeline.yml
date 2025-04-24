@@ -16,8 +16,10 @@ parameters:
     type: string
   - name: jobsVariableMappings
     type: object
+    default: {}
   - name: terraformVariableMappings
     type: object
+    default: {}
 
 resources:
   repositories:
