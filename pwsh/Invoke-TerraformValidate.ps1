@@ -1,5 +1,5 @@
 ﻿param($TerraformFilesDirectory)
 Set-Location -Path $TerraformFilesDirectory
-Write-Host $(Get-Content)
+Get-ChildItem
 terraform init -backend=false
 terraform validate
