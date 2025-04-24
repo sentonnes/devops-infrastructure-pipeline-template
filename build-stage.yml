@@ -8,7 +8,7 @@ parameters:
 stages:
   - stage: Build
     variables:
-      CheckOutPathTerraformFiles: $(Build.SourcesDirectory)/TerraformFiles
+      CheckOutPathTerraformFiles: TerraformFiles
       relativePathToTerraformFiles: $(CheckOutPathTerraformFiles)/${{ parameters.relativePathToTerraformFiles }}
     displayName: "Build"
     jobs:
