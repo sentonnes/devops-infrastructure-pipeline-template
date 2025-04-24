@@ -1,6 +1,9 @@
 parameters:
   - name: relativePathToTerraformFiles
     type: string
+  - name: RunValidate
+    type: boolean
+    default: true
 
 stages:
   - stage: Build
@@ -9,10 +12,19 @@ stages:
     displayName: "Build"
     jobs:
       - job: PublishTerraformArtifact
+        container: TerraformContainer
         workspace:
           clean: all
         displayName: "Publish Terraform Artifact"
         steps:
+          - task: PowerShell@2
+            name: validate
+            condition: $(RunValidate)
+            displayName: "Terraform Validate"
+            inputs:
+              targetType: filePath
+              filePath: "$(Pipeline.Workspace)/$(CheckOutPath)/pwsh/Invoke-TerraformValidate.ps1"
+            
           - task: PublishPipelineArtifact@1
             displayName: "Publish Terraform Artifact"
             inputs:
