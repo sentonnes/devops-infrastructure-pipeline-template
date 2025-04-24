@@ -1,4 +1,9 @@
 parameters:
+  - name: PipelineVariableMappings
+    type: object
+    default:
+      - name: UbuntuPool
+        value: "Mare Nectaris"
   - name: relativePathToTerraformFiles
     type: string
   - name: tfStateResourceGroupName
@@ -29,6 +34,15 @@ resources:
   containers:
     - container: TerraformContainer
       image: ukhydrographicoffice/terraform-powershell:1.8.5
+
+variables:
+  - name: BuildCounter
+    value: $[counter(format('{0:yyyyMMdd}', pipeline.startTime), 1)]
+  - name: CheckOutPath
+    value: devops-infrastructure-pipeline-template
+  - ${{ each PipelineVariableMapping in parameters.PipelineVariableMappings }}:
+    - name: ${{ PipelineVariableMapping.Key }}
+      value: ${{ PipelineVariableMapping.Value }}
 
 stages:
   - template: build-stage.yml
