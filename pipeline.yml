@@ -41,7 +41,7 @@ resources:
 variables:
   - name: BuildCounter
     value: $[counter(format('{0:yyyyMMdd}', pipeline.startTime), 1)]
-  - name: CheckOutPath
+  - name: TemplateRepoCheckOutPathSegment
     value: devops-infrastructure-pipeline-template
   - ${{ each PipelineVariableMapping in parameters.PipelineVariableMappings }}:
     - name: ${{ PipelineVariableMapping.Key }}

@@ -8,8 +8,8 @@ parameters:
 stages:
   - stage: Build
     variables:
-      CheckOutPathTerraformFiles: TerraformFiles
-      relativePathToTerraformFiles: $(CheckOutPathTerraformFiles)/${{ parameters.relativePathToTerraformFiles }}
+      ServiceRepoCheckoutPathSegment: TerraformFiles
+      AbsolutePathToTerraformFiles: $(Build.SourcesDirectory)/$(ServiceRepoCheckoutPathSegment)/${{ parameters.relativePathToTerraformFiles }}
     displayName: "Build"
     jobs:
       - job: PublishTerraformArtifact
@@ -20,10 +20,10 @@ stages:
         steps:
           - checkout: InfrastructurePipelineTemplate
             persistCredentials: true
-            path: $(CheckOutPath)
+            path: $(TemplateRepoCheckOutPathSegment)
 
           - checkout: self
-            path: $(CheckOutPathTerraformFiles)
+            path: $(ServiceRepoCheckoutPathSegment)
               
           - task: PowerShell@2
             name: validate
@@ -31,13 +31,13 @@ stages:
             displayName: "Terraform Validate"
             inputs:
               targetType: filePath
-              filePath: "$(Pipeline.Workspace)/$(CheckOutPath)/pwsh/Invoke-TerraformValidate.ps1"
+              filePath: "$(Pipeline.Workspace)/$(TemplateRepoCheckOutPathSegment)/pwsh/Invoke-TerraformValidate.ps1"
               arguments: >
-                -TerraformFilesDirectory "$(relativePathToTerraformFiles)"            
+                -TerraformFilesDirectory "$(AbsolutePathToTerraformFiles)"            
   
           - task: PublishPipelineArtifact@1
             displayName: "Publish Terraform Artifact"
             inputs:
-              targetPath: $(relativePathToTerraformFiles)
+              targetPath: $(AbsolutePathToTerraformFiles)
               artifact: "TerraformArtifact"
               publishLocation: "pipeline"
