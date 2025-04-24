@@ -33,7 +33,7 @@ resources:
       ref: refs/heads/main
   containers:
     - container: TerraformContainer
-      image: ukhydrographicoffice/terraform-powershell:1.8.5
+      image: ukhydrographicoffice/terraform-powershell:latest
 
 variables:
   - name: BuildCounter
