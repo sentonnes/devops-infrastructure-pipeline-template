@@ -41,4 +41,4 @@ stages:
           TerraformArtifact: "TerraformArtifact" # Hardcoded until it doesn't need to be
           TerraformContainer: TerraformContainer
           JobsVariableMappings: ${{ parameters.jobsVariableMappings }}
-          TerraformVariableMappings: ${{ parameters.jobsVariableMappings }}
+          TerraformVariableMappings: ${{ parameters.terraformVariableMappings }}
