@@ -81,12 +81,25 @@ stages:
       tfStateContainerName: ${{ parameters.tfStateContainerName }}
       jobsVariableMappings: ${{ parameters.jobsVariableMappings }}
       terraformVariableMappings: ${{ parameters.terraformVariableMappings }}
+      
+  - template: deploy-stage.yml
+    parameters:
+      environment: preprod
+      dependsOn:
+        - "Deploy_qa"
+      condition: succeeded('Checks', 'Deploy_dev')
+      tfStateBlobName: ${{ parameters.tfStateBlobName }}
+      tfStateResourceGroupName: ${{ parameters.tfStateResourceGroupName }}
+      tfStateStorageAccountName: ${{ parameters.tfStateStorageAccountName }}
+      tfStateContainerName: ${{ parameters.tfStateContainerName }}
+      jobsVariableMappings: ${{ parameters.jobsVariableMappings }}
+      terraformVariableMappings: ${{ parameters.terraformVariableMappings }}
 
   - template: deploy-stage.yml
     parameters:
       environment: live
       dependsOn:
-        - "Deploy_qa"
+        - "Deploy_preprod"
       tfStateBlobName: ${{ parameters.tfStateBlobName }}
       tfStateResourceGroupName: ${{ parameters.tfStateResourceGroupName }}
       tfStateStorageAccountName: ${{ parameters.tfStateStorageAccountName }}
