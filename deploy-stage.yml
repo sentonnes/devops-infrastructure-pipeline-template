@@ -7,7 +7,7 @@ parameters:
     default: 'succeeded()'
   - name: dependsOn
     type: object
-    default: { }
+    default: {}
   - name: tfStateBlobName
     type: string
   - name: tfStateResourceGroupName
